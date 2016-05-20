@@ -52,7 +52,7 @@ UITableViewDataSource, UITableViewDelegate {
       
       theTableView.dataSource = self
       theTableView.delegate = self
-      theTableView.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+      theTableView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
       
       view.addSubview(theTableView)
     }
@@ -71,7 +71,7 @@ UITableViewDataSource, UITableViewDelegate {
       let cell = tableView.dequeueReusableCellWithIdentifier("identifier",
         forIndexPath: indexPath) as UITableViewCell
       
-      cell.textLabel.text = allRows[indexPath.row]
+      cell.textLabel!.text = allRows[indexPath.row]
       
       return cell
       

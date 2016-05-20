@@ -15,22 +15,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
   
   
-  func application(application: UIApplication!,
+  func application(application: UIApplication,
     didFinishLaunchingWithOptions launchOptions:
     [NSObject : AnyObject]?) -> Bool {
       
       let motionManager = CMMotionManager()
       
       if motionManager.gyroAvailable{
-        println("Gryro is available")
+        print("Gryro is available")
       } else {
-        println("Gyro is not available")
+        print("Gyro is not available")
       }
       
       if motionManager.gyroActive{
-        println("Gryo is active")
+        print("Gryo is active")
       } else {
-        println("Gryo is not active")
+        print("Gryo is not active")
       }
       
       return true

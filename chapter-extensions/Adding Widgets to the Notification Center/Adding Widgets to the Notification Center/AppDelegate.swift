@@ -16,8 +16,8 @@ extension String{
     if components.count == 2{
       let section = components[0]
       let row = components[1]
-      if let sectionValue = section.toInt(){
-        if let rowValue = row.toInt(){
+      if let sectionValue = Int(section){
+        if let rowValue = Int(row){
           return NSIndexPath(forRow: rowValue, inSection: sectionValue)
         }
       }
@@ -32,14 +32,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
   let widgetUrlScheme = "widget"
   
-  func application(application: UIApplication!,
+  func application(application: UIApplication,
     didFinishLaunchingWithOptions
     launchOptions: [NSObject : AnyObject]?) -> Bool {
       return true
   }
   
-  func application(application: UIApplication!,
-    handleOpenURL url: NSURL!) -> Bool {
+  func application(application: UIApplication,
+    handleOpenURL url: NSURL) -> Bool {
       
       if url.scheme == widgetUrlScheme{
         
@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let indexPath: NSIndexPath = url.host!.toIndexPath()
         
         /* Now do your work with the index path */
-        println(indexPath)
+        print(indexPath)
         
       }
       

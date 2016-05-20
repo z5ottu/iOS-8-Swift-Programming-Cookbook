@@ -44,8 +44,8 @@
 //  }
 //
 //}
-
-/* 2 */
+//
+///* 2 */
 //import UIKit
 //
 //class ViewController: UIViewController {
@@ -59,7 +59,7 @@
 //    let selectedSegmentText =
 //    sender.titleForSegmentAtIndex(selectedSegmentIndex)
 //    
-//    println("Segment \(selectedSegmentIndex) with text" +
+//    print("Segment \(selectedSegmentIndex) with text" +
 //      " of \(selectedSegmentText) is selected")
 //  }
 //  
@@ -84,8 +84,8 @@
 //  }
 //  
 //}
-
-/* 3 */
+//
+///* 3 */
 //import UIKit
 //
 //class ViewController: UIViewController {
@@ -99,7 +99,7 @@
 //    let selectedSegmentText =
 //    sender.titleForSegmentAtIndex(selectedSegmentIndex)
 //    
-//    println("Segment \(selectedSegmentIndex) with text" +
+//    print("Segment \(selectedSegmentIndex) with text" +
 //      " of \(selectedSegmentText) is selected")
 //  }
 //  
@@ -124,8 +124,8 @@
 //  }
 //  
 //}
-
-/* 4 */
+//
+///* 4 */
 import UIKit
 
 class ViewController: UIViewController {
@@ -134,11 +134,11 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    let segments = NSArray(objects:
+    let segments = [
       "Red",
       UIImage(named: "blueDot")!,
       "Green",
-      "Yellow")
+      "Yellow"]
     
     segmentedControl = UISegmentedControl(items: segments)
     segmentedControl.center = view.center

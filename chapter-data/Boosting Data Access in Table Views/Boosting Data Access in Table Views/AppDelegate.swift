@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
 
 
-  func application(application: UIApplication!, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
+  func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
     // Override point for customization after application launch.
     return true
   }
@@ -65,10 +65,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("Boosting_Data_Access_in_Table_Views.sqlite")
       var error: NSError? = nil
       var failureReason = "There was an error creating or loading the application's saved data."
-      if coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil, error: &error) == nil {
+      do {
+          try coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil)
+      } catch var error1 as NSError {
+          error = error1
           coordinator = nil
           // Report any error we got.
-          let dict = NSMutableDictionary()
+          var dict = [String: AnyObject]()
           dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
           dict[NSLocalizedFailureReasonErrorKey] = failureReason
           dict[NSUnderlyingErrorKey] = error
@@ -77,34 +80,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
           // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
           NSLog("Unresolved error \(error), \(error!.userInfo)")
           abort()
+      } catch {
+          fatalError()
       }
       
       return coordinator
   }()
 
-  lazy var managedObjectContext: NSManagedObjectContext? = {
-      // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.) This property is optional since there are legitimate error conditions that could cause the creation of the context to fail.
-      let coordinator = self.persistentStoreCoordinator
-      if coordinator == nil {
-          return nil
-      }
-      var managedObjectContext = NSManagedObjectContext()
-      managedObjectContext.persistentStoreCoordinator = coordinator
-      return managedObjectContext
-  }()
-
+  lazy var managedObjectContext: NSManagedObjectContext = {
+    // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.) This property is optional since there are legitimate error conditions that could cause the creation of the context to fail.
+    let coordinator = self.persistentStoreCoordinator
+    var managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+    managedObjectContext.persistentStoreCoordinator = coordinator
+    return managedObjectContext
+    }()
+  
   // MARK: - Core Data Saving support
-
+  
   func saveContext () {
-      if let moc = self.managedObjectContext {
-          var error: NSError? = nil
-          if moc.hasChanges && !moc.save(&error) {
-              // Replace this implementation with code to handle the error appropriately.
-              // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-              NSLog("Unresolved error \(error), \(error!.userInfo)")
-              abort()
-          }
+    if managedObjectContext.hasChanges {
+      do {
+        try managedObjectContext.save()
+      } catch {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+        let nserror = error as NSError
+        NSLog("Unresolved error \(nserror), \(nserror.userInfo)")
+        abort()
       }
+    }
   }
 
 }

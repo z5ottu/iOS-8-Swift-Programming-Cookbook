@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   lazy var manager = CMMotionManager()
   lazy var queue = NSOperationQueue()
   
-  func application(application: UIApplication!,
+  func application(application: UIApplication,
     didFinishLaunchingWithOptions launchOptions:
     [NSObject : AnyObject]?) -> Bool {
       
@@ -28,20 +28,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
           manager.gyroUpdateInterval = 1.0 / 40.0
           
           manager.startGyroUpdatesToQueue(queue,
-            withHandler: {(data: CMGyroData!, error: NSError!) in
+            withHandler: {data, error in
               
-              println("Gyro Rotation x = \(data.rotationRate.x)")
-              println("Gyro Rotation y = \(data.rotationRate.y)")
-              println("Gyro Rotation z = \(data.rotationRate.z)")
+              guard let data = data else{
+                return
+              }
+              
+              print("Gyro Rotation x = \(data.rotationRate.x)")
+              print("Gyro Rotation y = \(data.rotationRate.y)")
+              print("Gyro Rotation z = \(data.rotationRate.z)")
               
             })
           
         } else {
-          println("Gyro is already active")
+          print("Gyro is already active")
         }
         
       } else {
-        println("Gyro isn't available")
+        print("Gyro isn't available")
       }
       
       return true

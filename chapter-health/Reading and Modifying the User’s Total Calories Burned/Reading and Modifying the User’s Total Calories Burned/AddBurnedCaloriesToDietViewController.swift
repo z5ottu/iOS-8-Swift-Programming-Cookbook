@@ -83,7 +83,7 @@ class AddBurnedCaloriesToDietViewController: UITableViewController {
   
   @IBAction func addToDiet(){
     
-    let burner = allCalorieBurners[tableView.indexPathForSelectedRow()!.row]
+    let burner = allCalorieBurners[tableView.indexPathForSelectedRow!.row]
     
     if let theDelegate = delegate{
       theDelegate.addBurnedCaloriesToDietViewController?(self,
@@ -114,7 +114,7 @@ class AddBurnedCaloriesToDietViewController: UITableViewController {
       let caloriesAsString = formatter.stringFromValue(burner.calories,
         unit: .Kilocalorie)
       
-      cell.textLabel.text = burner.name
+      cell.textLabel!.text = burner.name
       cell.detailTextLabel!.text = caloriesAsString
       
       return cell

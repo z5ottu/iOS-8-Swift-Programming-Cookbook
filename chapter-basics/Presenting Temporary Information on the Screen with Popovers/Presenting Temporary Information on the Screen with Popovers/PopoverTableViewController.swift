@@ -53,24 +53,13 @@ class PopoverTableViewController: UITableViewController {
   }()
   
   var cancelBarButtonItem: UIBarButtonItem!
-  var selectionHandler: ((selectedItem: String) -> Void!)?
+  var selectionHandler: ((selectedItem: String) -> Void)?
 
-  required init(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)
-  }
-  
-  override init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: NSBundle!) {
-    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    tableView.registerClass(UITableViewCell.classForCoder(),
-      forCellReuseIdentifier: TableViewValues.identifier)
-  }
-  
-  override init(style: UITableViewStyle) {
-    super.init(style: style)
-  }
-  
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    tableView.registerClass(UITableViewCell.classForCoder(),
+      forCellReuseIdentifier: TableViewValues.identifier)
     
     cancelBarButtonItem = UIBarButtonItem(title: "Cancel", style: .Plain,
       target: self, action: "performCancel")
@@ -105,7 +94,7 @@ class PopoverTableViewController: UITableViewController {
     let cell = tableView.dequeueReusableCellWithIdentifier(
       TableViewValues.identifier, forIndexPath: indexPath) as UITableViewCell
     
-    cell.textLabel.text = items[indexPath]
+    cell.textLabel!.text = items[indexPath]
     
     return cell
     

@@ -36,33 +36,30 @@
 //      &error).takeRetainedValue() as ABAddressBookRef
 //    }()
 //  
-//  func application(application: UIApplication!,
+//  func application(application: UIApplication,
 //    didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
 //      
 //      switch ABAddressBookGetAuthorizationStatus(){
 //      case .Authorized:
-//        println("Already authorized")
+//        print("Already authorized")
 //        readAllPeopleInAddressBook(addressBook)
 //      case .Denied:
-//        println("You are denied access to address book")
+//        print("You are denied access to address book")
 //      case .NotDetermined:
 //        ABAddressBookRequestAccessWithCompletion(addressBook,
 //          {[weak self] (granted: Bool, error: CFError!) in
 //            
 //            if granted{
 //              let strongSelf = self!
-//              println("Access is granted")
+//              print("Access is granted")
 //              strongSelf.readAllPeopleInAddressBook(strongSelf.addressBook)
 //            } else {
-//              println("Access is not granted")
+//              print("Access is not granted")
 //            }
 //            
 //          })
 //      case .Restricted:
-//        println("Access is restricted")
-//        
-//      default:
-//        println("Unhandled")
+//        print("Access is restricted")
 //      }
 //      
 //      return true
@@ -77,17 +74,17 @@
 //    for person: ABRecordRef in allPeople{
 //      
 //      let firstName = ABRecordCopyValue(person,
-//        kABPersonFirstNameProperty).takeRetainedValue() as String
+//        kABPersonFirstNameProperty).takeRetainedValue() as! String
 //      
 //      let lastName = ABRecordCopyValue(person,
-//        kABPersonLastNameProperty).takeRetainedValue() as String
+//        kABPersonLastNameProperty).takeRetainedValue() as! String
 //      
 //      let email: ABMultiValueRef = ABRecordCopyValue(person,
 //        kABPersonEmailProperty).takeRetainedValue()
 //      
-//      println("First name = \(firstName)")
-//      println("Last name = \(lastName)")
-//      println("Email = \(email)")
+//      print("First name = \(firstName)")
+//      print("Last name = \(lastName)")
+//      print("Email = \(email)")
 //      
 //    }
 //    
@@ -110,15 +107,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     &error).takeRetainedValue() as ABAddressBookRef
   }()
   
-  func application(application: UIApplication!,
+  func application(application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
       
       switch ABAddressBookGetAuthorizationStatus(){
       case .Authorized:
-        println("Already authorized")
+        print("Already authorized")
         readAllPeopleInAddressBook(addressBook)
       case .Denied:
-        println("You are denied access to address book")
+        print("You are denied access to address book")
         
       case .NotDetermined:
         ABAddressBookRequestAccessWithCompletion(addressBook,
@@ -126,18 +123,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             if granted{
               let strongSelf = self!
-              println("Access is granted")
+              print("Access is granted")
               strongSelf.readAllPeopleInAddressBook(strongSelf.addressBook)
             } else {
-              println("Access is not granted")
+              print("Access is not granted")
             }
             
           })
       case .Restricted:
-        println("Access is restricted")
+        print("Access is restricted")
         
-      default:
-        println("Unhandled")
       }
       
       return true
@@ -151,9 +146,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     for counter in 0..<ABMultiValueGetCount(emails){
       
       let email = ABMultiValueCopyValueAtIndex(emails,
-        counter).takeRetainedValue() as String
+        counter).takeRetainedValue() as! String
       
-      println(email)
+      print(email)
       
     }
     
@@ -168,12 +163,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     for person: ABRecordRef in allPeople{
       
       let firstName = ABRecordCopyValue(person,
-        kABPersonFirstNameProperty).takeRetainedValue() as String
+        kABPersonFirstNameProperty).takeRetainedValue() as! String
       let lastName = ABRecordCopyValue(person,
-        kABPersonLastNameProperty).takeRetainedValue() as String
+        kABPersonLastNameProperty).takeRetainedValue() as! String
       
-      println("First name = \(firstName)")
-      println("Last name = \(lastName)")
+      print("First name = \(firstName)")
+      print("Last name = \(lastName)")
       
       readEmailsForPerson(person)
       

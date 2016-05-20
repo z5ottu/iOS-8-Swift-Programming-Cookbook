@@ -42,12 +42,12 @@ import UIKit
     self.init(firstName: "Vandad", lastName: "Nahavandipoor")
   }
   
-  required init(coder aDecoder: NSCoder) {
+  required init?(coder aDecoder: NSCoder) {
       self.firstName = aDecoder.decodeObjectForKey(SerializationKey.firstName)
-        as String
+        as! String
     
       self.lastName = aDecoder.decodeObjectForKey(SerializationKey.lastName)
-        as String
+        as! String
   }
   
   func encodeWithCoder(aCoder: NSCoder) {
@@ -70,16 +70,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
     
     let path = NSTemporaryDirectory() + "person"
-    var firstPerson = Person()
+    let firstPerson = Person()
     NSKeyedArchiver.archiveRootObject(firstPerson, toFile: path)
     
-    var secondPerson = NSKeyedUnarchiver.unarchiveObjectWithFile(path)
-      as Person!
+    let secondPerson = NSKeyedUnarchiver.unarchiveObjectWithFile(path)
+      as! Person!
     
     if firstPerson == secondPerson{
-      println("Both persons are the same")
+      print("Both persons are the same")
     } else {
-      println("Could not read the archive")
+      print("Could not read the archive")
     }
     
     self.window = UIWindow(frame: UIScreen.mainScreen().bounds)

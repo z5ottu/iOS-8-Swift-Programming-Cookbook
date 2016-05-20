@@ -29,31 +29,28 @@ class ViewController: UIViewController {
   @IBOutlet weak var textField: UITextField!
   let type = kUTTypeText as NSString as String
   
-  func activityCompletionHandler(activityType: String!,
+  func activityCompletionHandler(activityType: String?,
     completed: Bool,
-    returnedItems: [AnyObject]!,
-    activityError: NSError!){
+    returnedItems: [AnyObject]?,
+    activityError: NSError?){
       
       if completed && activityError == nil{
         
-        let item = returnedItems[0] as NSExtensionItem
+        let item = returnedItems?[0] as! NSExtensionItem
         
         if let attachments = item.attachments{
           
-          let attachment = attachments[0] as NSItemProvider
+          let attachment = attachments[0] as! NSItemProvider
           
           if attachment.hasItemConformingToTypeIdentifier(type){
             attachment.loadItemForTypeIdentifier(type, options: nil,
-              completionHandler: {[weak self]
-                (item: NSSecureCoding!, error: NSError!) in
+              completionHandler:{
+                (item: NSSecureCoding?, error: NSError?) in
                 
-                let strongSelf = self!
-                if error != nil{
-                  strongSelf.textField.text = "\(error)"
-                } else {
-                  if let value = item as? NSString{
-                    strongSelf.textField.text = value
-                  }
+                if let error = error{
+                  self.textField.text = "\(error)"
+                } else if let value = item as? String{
+                  self.textField.text = value
                 }
                 
             })
@@ -66,7 +63,7 @@ class ViewController: UIViewController {
   }
   
   @IBAction func performShare(){
-    let controller = UIActivityViewController(activityItems: [textField.text],
+    let controller = UIActivityViewController(activityItems: [textField.text!],
       applicationActivities: nil)
     controller.completionWithItemsHandler = activityCompletionHandler
     presentViewController(controller, animated: true, completion: nil)

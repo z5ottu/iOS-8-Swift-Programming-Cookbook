@@ -34,28 +34,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let service = NSBundle.mainBundle().bundleIdentifier!
     
     let query = [
-      kSecClass as NSString :
-      kSecClassGenericPassword as NSString,
+      kSecClass as String :
+      kSecClassGenericPassword as String,
       
-      kSecAttrService as NSString : service,
-      kSecAttrAccount as NSString : keyToSearchFor,
-      kSecReturnAttributes as NSString : kCFBooleanTrue,
+      kSecAttrService as String : service,
+      kSecAttrAccount as String : keyToSearchFor,
+      kSecReturnAttributes as String : kCFBooleanTrue,
       
-      ] as NSDictionary
+      ]
     
     var returnedAttributes: Unmanaged<AnyObject>? = nil
     let results = Int(SecItemCopyMatching(query, &returnedAttributes))
     
     if results == Int(errSecSuccess){
       
-      let attributes = returnedAttributes!.takeRetainedValue() as NSDictionary
+      let attributes = returnedAttributes!.takeRetainedValue() as! NSDictionary
       
-      let comments = attributes[kSecAttrComment as NSString] as String
+      let comments = attributes[kSecAttrComment as String] as! String
       
-      println("Comments = \(comments)")
+      print("Comments = \(comments)")
       
     } else {
-      println("Error happened with code: \(results)")
+      print("Error happened with code: \(results)")
     }
   }
 
@@ -66,12 +66,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       let service = NSBundle.mainBundle().bundleIdentifier!
       
       let query = [
-        kSecClass as NSString :
-      kSecClassGenericPassword as NSString,
+        kSecClass as String :
+      kSecClassGenericPassword as String,
         
-        kSecAttrService as NSString : service,
-        kSecAttrAccount as NSString : keyToSearchFor,
-      ] as NSDictionary
+        kSecAttrService as String : service,
+        kSecAttrAccount as String : keyToSearchFor,
+      ]
       
       var result: Unmanaged<AnyObject>? = nil
       let found = Int(SecItemCopyMatching(query, &result))
@@ -82,21 +82,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
           allowLossyConversion: false)
         
         let update = [
-          kSecValueData as NSString : newData!,
-          kSecAttrComment as NSString : "My comments"
-        ] as NSDictionary
+          kSecValueData as String : newData!,
+          kSecAttrComment as String : "My comments"
+        ]
         
         let updated = Int(SecItemUpdate(query, update))
         
         if updated == Int(errSecSuccess){
-          println("Successfully updated the existing value")
+          print("Successfully updated the existing value")
           readExistingValue()
         } else {
-          println("Failed to update the value. Error = \(updated)")
+          print("Failed to update the value. Error = \(updated)")
         }
         
       } else {
-        println("Error happened. Code = \(found)")
+        print("Error happened. Code = \(found)")
       }
     
     

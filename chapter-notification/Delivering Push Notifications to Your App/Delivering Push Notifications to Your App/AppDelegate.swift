@@ -13,13 +13,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   var window: UIWindow?
   
-  func application(application: UIApplication!,
-    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData!) {
+  func application(application: UIApplication,
+    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
       
       /* Each byte in the data will be translated to its hex value like 0x01 or
       0xAB excluding the 0x part, so for 1 byte, we will need 2 characters to
       represent that byte, hence the * 2 */
-      var tokenAsString = NSMutableString()
+      let tokenAsString = NSMutableString()
       
       /* Create a buffer of UInt8 values and then get the raw bytes
       of the device token into this buffer */
@@ -31,16 +31,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tokenAsString.appendFormat("%02hhX", byte)
       }
       
-      println("Token = \(tokenAsString)")
+      print("Token = \(tokenAsString)")
       
   }
   
-  func application(application: UIApplication!,
-    didFailToRegisterForRemoteNotificationsWithError error: NSError!){
+  func application(application: UIApplication,
+    didFailToRegisterForRemoteNotificationsWithError error: NSError){
       
   }
   
-  func application(application: UIApplication!,
+  func application(application: UIApplication,
     didFinishLaunchingWithOptions launchOptions:
     [NSObject : AnyObject]?) -> Bool {
       

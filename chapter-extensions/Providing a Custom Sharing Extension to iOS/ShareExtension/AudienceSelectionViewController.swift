@@ -62,10 +62,6 @@ class AudienceSelectionViewController: UITableViewController {
     title = "Choose Audience"
   }
   
-  override init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: NSBundle!) {
-    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-  }
-  
   override func tableView(tableView: UITableView,
     numberOfRowsInSection section: Int) -> Int {
       return Audience.allValues.count
@@ -79,7 +75,7 @@ class AudienceSelectionViewController: UITableViewController {
       
       let text = Audience.allValues[indexPath.row].rawValue
       
-      cell.textLabel.text = text
+      cell.textLabel!.text = text
       
       if text == audience{
         cell.accessoryType = .Checkmark

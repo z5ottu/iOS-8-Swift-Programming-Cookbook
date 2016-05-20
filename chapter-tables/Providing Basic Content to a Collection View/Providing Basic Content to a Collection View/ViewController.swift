@@ -30,13 +30,13 @@ class ViewController: UICollectionViewController {
     UIColor.greenColor(),
     UIColor.blueColor()]
   
-  override init(collectionViewLayout layout: UICollectionViewLayout!) {
+  override init(collectionViewLayout layout: UICollectionViewLayout) {
     super.init(collectionViewLayout: layout)
     
-    collectionView.registerClass(UICollectionViewCell.classForCoder(),
+    collectionView!.registerClass(UICollectionViewCell.classForCoder(),
       forCellWithReuseIdentifier: "cell")
     
-    collectionView.backgroundColor = UIColor.whiteColor()
+    collectionView!.backgroundColor = UIColor.whiteColor()
   }
   
   convenience required init(coder aDecoder: NSCoder) {

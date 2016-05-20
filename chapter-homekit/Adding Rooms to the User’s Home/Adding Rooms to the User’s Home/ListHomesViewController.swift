@@ -83,18 +83,18 @@ class ListHomesViewController: UITableViewController, HMHomeManagerDelegate{
       
       let home = homeManager.homes[indexPath.row] as HMHome
       
-      cell.textLabel.text = home.name
+      cell.textLabel!.text = home.name
       cell.accessoryType = .DisclosureIndicator
       
       return cell
       
   }
   
-  func homeManager(manager: HMHomeManager!, didRemoveHome home: HMHome!) {
-    println("A home has been deleted")
+  func homeManager(manager: HMHomeManager, didRemoveHome home: HMHome) {
+    print("A home has been deleted")
   }
   
-  func homeManagerDidUpdateHomes(manager: HMHomeManager!) {
+  func homeManagerDidUpdateHomes(manager: HMHomeManager) {
     tableView.reloadData()
   }
   
@@ -104,17 +104,17 @@ class ListHomesViewController: UITableViewController, HMHomeManagerDelegate{
       if segue.identifier == addHomeSegueIdentifier{
         
         let controller = segue.destinationViewController
-          as AddHomeViewController
+          as! AddHomeViewController
         controller.homeManager = homeManager
         
       }
       
       else if segue.identifier == showRoomsSegueIdentifier{
         let controller = segue.destinationViewController
-          as ListRoomsTableViewController
+          as! ListRoomsTableViewController
         controller.homeManager = homeManager
         
-        let home = homeManager.homes[tableView.indexPathForSelectedRow()!.row]
+        let home = homeManager.homes[tableView.indexPathForSelectedRow!.row]
           as HMHome
         
         controller.home = home
@@ -131,13 +131,10 @@ class ListHomesViewController: UITableViewController, HMHomeManagerDelegate{
       if editingStyle == .Delete{
         
         let home = homeManager.homes[indexPath.row] as HMHome
-        homeManager.removeHome(home, completionHandler: {[weak self]
-          (error: NSError!) in
-          
-          let strongSelf = self!
+        homeManager.removeHome(home, completionHandler: {error in
           
           if error != nil{
-            UIAlertController.showAlertControllerOnHostController(strongSelf,
+            UIAlertController.showAlertControllerOnHostController(self,
               title: "Error",
               message: "An error occurred = \(error)",
               buttonTitle: "OK")

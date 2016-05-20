@@ -22,7 +22,7 @@ class ColorTransformer: NSValueTransformer {
     
     /* Transform color to data */
     
-    let color = value as UIColor
+    let color = value as! UIColor
     
     var red: CGFloat = 0
     var green: CGFloat = 0
@@ -30,7 +30,7 @@ class ColorTransformer: NSValueTransformer {
     var alpha: CGFloat = 0
     color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
     
-    var components = [red, green, blue, alpha]
+    let components = [red, green, blue, alpha]
     let dataFromColors = NSData(bytes: components,
       length: sizeofValue(components))
     
@@ -41,7 +41,7 @@ class ColorTransformer: NSValueTransformer {
   override func reverseTransformedValue(value: AnyObject!) -> AnyObject {
     
     /* Transform data to color */
-    let data = value as NSData
+    let data = value as! NSData
     var components = [CGFloat](count: 4, repeatedValue: 0.0)
     data.getBytes(&components, length: sizeofValue(components))
     

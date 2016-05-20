@@ -29,8 +29,8 @@
 //  var scrollView: UIScrollView!
 //  let image = UIImage(named: "Safari")
 //}
-
-/* 2 */
+//
+///* 2 */
 //import UIKit
 //
 //class ViewController: UIViewController {
@@ -51,8 +51,8 @@
 //  }
 //  
 //}
-
-/* 3 */
+//
+///* 3 */
 import UIKit
 
 class ViewController: UIViewController, UIScrollViewDelegate {
@@ -70,7 +70,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     scrollView.alpha = 1
   }
   
-  func scrollViewDidEndDragging(scrollView: UIScrollView!,
+  func scrollViewDidEndDragging(scrollView: UIScrollView,
     willDecelerate decelerate: Bool){
       scrollView.alpha = 1
   }

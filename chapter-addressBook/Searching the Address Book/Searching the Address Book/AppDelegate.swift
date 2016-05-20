@@ -39,17 +39,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lastName paramLastName: String,
     inAddressBook addressBook: ABAddressBookRef) -> Bool{
       
-      var exists = false
       let people = ABAddressBookCopyArrayOfAllPeople(
         addressBook).takeRetainedValue() as NSArray as [ABRecordRef]
       
       for person: ABRecordRef in people{
         
         let firstName = ABRecordCopyValue(person,
-          kABPersonFirstNameProperty).takeRetainedValue() as String
+          kABPersonFirstNameProperty).takeRetainedValue() as! String
         
         let lastName = ABRecordCopyValue(person,
-          kABPersonLastNameProperty).takeRetainedValue() as String
+          kABPersonLastNameProperty).takeRetainedValue() as! String
                       
             if firstName == paramFirstName &&
               lastName == paramLastName{
@@ -69,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       for group: ABRecordRef in groups{
         
         let groupName = ABRecordCopyValue(group,
-          kABGroupNameProperty).takeRetainedValue() as String
+          kABGroupNameProperty).takeRetainedValue() as! String
         
         if groupName == name{
           return true
@@ -93,20 +92,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   }
   
-  func application(application: UIApplication!,
+  func application(application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
       
       switch ABAddressBookGetAuthorizationStatus(){
       case .Authorized:
-        println("Already authorized")
+        print("Already authorized")
         if doesPersonExistWithFullName("Richard Branson",
           inAddressBook: addressBook){
-            println("This person exists")
+            print("This person exists")
         } else {
-            println("This person doesn't exist")
+            print("This person doesn't exist")
         }
       case .Denied:
-        println("You are denied access to address book")
+        print("You are denied access to address book")
         
       case .NotDetermined:
         ABAddressBookRequestAccessWithCompletion(addressBook,
@@ -114,23 +113,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             if granted{
               let strongSelf = self!
-              println("Access is granted")
+              print("Access is granted")
               if strongSelf.doesPersonExistWithFullName("Richard Branson",
                 inAddressBook: strongSelf.addressBook){
-                println("This person exists")
+                print("This person exists")
               } else {
-                println("This person doesn't exist")
+                print("This person doesn't exist")
               }
             } else {
-              println("Access is not granted")
+              print("Access is not granted")
             }
             
           })
       case .Restricted:
-        println("Access is restricted")
+        print("Access is restricted")
         
-      default:
-        println("Unhandled")
       }
       
       return true

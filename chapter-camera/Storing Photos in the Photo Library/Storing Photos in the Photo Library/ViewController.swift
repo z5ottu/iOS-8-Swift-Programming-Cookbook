@@ -38,32 +38,32 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     context: UnsafeMutablePointer<()>){
       
       if let theError = error{
-        println("An error happened while saving the image = \(theError)")
+        print("An error happened while saving the image = \(theError)")
       } else {
-        println("Image was saved successfully")
+        print("Image was saved successfully")
       }
   }
   
-  func imagePickerController(picker: UIImagePickerController!,
-    didFinishPickingMediaWithInfo info: [NSObject : AnyObject]!){
+  func imagePickerController(picker: UIImagePickerController,
+    didFinishPickingMediaWithInfo info: [String: AnyObject]){
       
-      println("Picker returned successfully")
+      print("Picker returned successfully")
       
       let mediaType:AnyObject? = info[UIImagePickerControllerMediaType]
       
       if let type:AnyObject = mediaType{
         
         if type is String{
-          let stringType = type as String
+          let stringType = type as! String
             
-          if stringType == kUTTypeImage as NSString{
+          if stringType == kUTTypeImage as String{
             
             var theImage: UIImage!
             
             if picker.allowsEditing{
-              theImage = info[UIImagePickerControllerEditedImage] as UIImage
+              theImage = info[UIImagePickerControllerEditedImage] as! UIImage
             } else {
-              theImage = info[UIImagePickerControllerOriginalImage] as UIImage
+              theImage = info[UIImagePickerControllerOriginalImage] as! UIImage
             }
             
             
@@ -87,7 +87,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   
   func imagePickerControllerDidCancel(picker: UIImagePickerController){
   
-  println("Picker was cancelled")
+  print("Picker was cancelled")
     picker.dismissViewControllerAnimated(true, completion: nil)
   
   }
@@ -115,7 +115,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   }
   
   func doesCameraSupportTakingPhotos() -> Bool{
-    return cameraSupportsMedia(kUTTypeImage as NSString, sourceType: .Camera)
+    return cameraSupportsMedia(kUTTypeImage as String, sourceType: .Camera)
   }
   
   override func viewDidAppear(animated: Bool) {
@@ -136,7 +136,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate {
       if let theController = controller{
         theController.sourceType = .Camera
         
-        theController.mediaTypes = [kUTTypeImage as NSString]
+        theController.mediaTypes = [kUTTypeImage as String]
         
         theController.allowsEditing = true
         theController.delegate = self
@@ -145,7 +145,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate {
       }
       
     } else {
-      println("Camera is not available")
+      print("Camera is not available")
     }
     
   }

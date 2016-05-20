@@ -38,26 +38,26 @@ class ViewController: UICollectionViewController {
     return allImages[Int(arc4random_uniform(UInt32(allImages.count)))]!
   }
   
-  override init(collectionViewLayout layout: UICollectionViewLayout!) {
+  override init(collectionViewLayout layout: UICollectionViewLayout) {
     super.init(collectionViewLayout: layout)
     
     /* Register the nib with the collection view for easy retrieval */
     let nib = UINib(nibName: "MyCollectionViewCell", bundle: nil)
-    collectionView.registerNib(nib, forCellWithReuseIdentifier: "cell")
+    collectionView!.registerNib(nib, forCellWithReuseIdentifier: "cell")
     
     /* Register the header's nib */
     let headerNib = UINib(nibName: "Header", bundle: nil)
-    collectionView.registerNib(headerNib,
+    collectionView!.registerNib(headerNib,
       forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
       withReuseIdentifier: "header")
     
     /* Register the footer's nib */
     let footerNib = UINib(nibName: "Footer", bundle: nil)
-    collectionView.registerNib(footerNib,
+    collectionView!.registerNib(footerNib,
       forSupplementaryViewOfKind: UICollectionElementKindSectionFooter,
       withReuseIdentifier: "footer")
     
-    collectionView.backgroundColor = UIColor.whiteColor()
+    collectionView!.backgroundColor = UIColor.whiteColor()
   }
   
 convenience required init(coder aDecoder: NSCoder) {
@@ -124,7 +124,7 @@ convenience required init(coder aDecoder: NSCoder) {
     cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
       
       let cell = collectionView.dequeueReusableCellWithReuseIdentifier(
-        "cell", forIndexPath: indexPath) as MyCollectionViewCell
+        "cell", forIndexPath: indexPath) as! MyCollectionViewCell
       
       cell.imageViewBackgroundImage.image = randomImage()
       cell.imageViewBackgroundImage.contentMode = .ScaleAspectFit

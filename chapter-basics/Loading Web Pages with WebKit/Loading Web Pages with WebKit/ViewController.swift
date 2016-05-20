@@ -29,21 +29,21 @@
 //  var webView: WKWebView?
 //  
 //  /* Start the network activity indicator when the web view is loading */
-//  func webView(webView: WKWebView!,
+//  func webView(webView: WKWebView,
 //    didStartProvisionalNavigation navigation: WKNavigation!){
 //      UIApplication.sharedApplication().networkActivityIndicatorVisible = true
 //  }
 //  
 //  /* Stop the network activity indicator when the loading finishes */
-//  func webView(webView: WKWebView!,
+//  func webView(webView: WKWebView,
 //    didFinishNavigation navigation: WKNavigation!){
 //      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
 //  }
 //  
 //  /* Do not allow links to be tapped */
-//  func webView(webView: WKWebView!,
-//    decidePolicyForNavigationAction navigationAction: WKNavigationAction!,
-//    decisionHandler: ((WKNavigationActionPolicy) -> Void)!){
+//  func webView(webView: WKWebView,
+//    decidePolicyForNavigationAction navigationAction: WKNavigationAction,
+//    decisionHandler: ((WKNavigationActionPolicy) -> Void)){
 //      
 //      /* Do not allow links to be tapped */
 //      if navigationAction.navigationType == .LinkActivated{
@@ -96,8 +96,8 @@
 //  }
 //  
 //}
-
-/* 2 */
+//
+///* 2 */
 import UIKit
 import WebKit
 
@@ -105,22 +105,22 @@ class ViewController: UIViewController, WKNavigationDelegate {
   var webView: WKWebView?
   
   /* Start the network activity indicator when the web view is loading */
-  func webView(webView: WKWebView!,
-    didStartProvisionalNavigation navigation: WKNavigation!){
+  func webView(webView: WKWebView,
+    didStartProvisionalNavigation navigation: WKNavigation){
       UIApplication.sharedApplication().networkActivityIndicatorVisible = true
   }
   
   /* Stop the network activity indicator when the loading finishes */
-  func webView(webView: WKWebView!,
-    didFinishNavigation navigation: WKNavigation!){
+  func webView(webView: WKWebView,
+    didFinishNavigation navigation: WKNavigation){
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
   }
   
-  func webView(webView: WKWebView!,
-    decidePolicyForNavigationResponse navigationResponse: WKNavigationResponse!,
-    decisionHandler: ((WKNavigationResponsePolicy) -> Void)!){
+  func webView(webView: WKWebView,
+    decidePolicyForNavigationResponse navigationResponse: WKNavigationResponse,
+    decisionHandler: ((WKNavigationResponsePolicy) -> Void)){
     
-      println(navigationResponse.response.MIMEType)
+      print(navigationResponse.response.MIMEType)
       
       decisionHandler(.Allow)
       

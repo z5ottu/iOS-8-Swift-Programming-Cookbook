@@ -36,12 +36,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       let service = NSBundle.mainBundle().bundleIdentifier!
       
       let query = [
-        kSecClass as NSString :
-      kSecClassGenericPassword as NSString,
+        kSecClass as String :
+        kSecClassGenericPassword as String,
         
-        kSecAttrService as NSString : service,
-        kSecAttrAccount as NSString : keyToSearchFor,
-        ] as NSDictionary
+        kSecAttrService as String : service,
+        kSecAttrAccount as String : keyToSearchFor,
+        ]
       
       
       var result: Unmanaged<AnyObject>? = nil
@@ -51,13 +51,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let deleted = Int(SecItemDelete(query))
         if deleted == Int(errSecSuccess){
-          println("Successfully deleted the item")
+          print("Successfully deleted the item")
         } else {
-          println("Failed to delete the item")
+          print("Failed to delete the item")
         }
         
       } else {
-        println("Error happened with code: \(foundExisting)")
+        print("Error happened with code: \(foundExisting)")
       }
     
     return true

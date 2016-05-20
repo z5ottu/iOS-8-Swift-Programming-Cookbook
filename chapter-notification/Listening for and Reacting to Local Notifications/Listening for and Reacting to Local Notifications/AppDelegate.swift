@@ -28,8 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   var window: UIWindow?
   
-  func application(application: UIApplication!,
-    didReceiveLocalNotification notification: UILocalNotification!) {
+  func application(application: UIApplication,
+    didReceiveLocalNotification notification: UILocalNotification) {
     
       let key1Value = notification.userInfo!["Key 1"] as? NSString
       let key2Value = notification.userInfo!["Key 2"] as? NSString
@@ -74,14 +74,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func askForNotificationPermissionForApplication(application: UIApplication){
     /* First ask the user if we are
     allowed to perform local notifications */
-    let settings = UIUserNotificationSettings(forTypes: .Alert | .Badge,
+    let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge],
       categories: nil)
     
     application.registerUserNotificationSettings(settings)
     
   }
   
-  func application(application: UIApplication!,
+  func application(application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
       
       if let options = launchOptions{
@@ -102,15 +102,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       return true
   }
   
-  func application(application: UIApplication!,
+  func application(application: UIApplication,
     didRegisterUserNotificationSettings
-    notificationSettings: UIUserNotificationSettings!){
-      
-      if notificationSettings.types == nil{
-        /* The user did not allow us to send notifications */
-        return
-      }
-      
+    notificationSettings: UIUserNotificationSettings){
+            
       scheduleLocalNotification()
       
   }

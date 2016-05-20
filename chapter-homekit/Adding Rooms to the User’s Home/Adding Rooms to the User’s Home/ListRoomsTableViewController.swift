@@ -39,12 +39,12 @@ class ListRoomsTableViewController: UITableViewController, HMHomeDelegate {
   
   let addRoomSegueIdentifier = "addRoom"
   
-  func home(home: HMHome!, didAddRoom room: HMRoom!) {
-    println("Added a new room to the home")
+  func home(home: HMHome, didAddRoom room: HMRoom) {
+    print("Added a new room to the home")
   }
   
-  func home(home: HMHome!, didRemoveRoom room: HMRoom!) {
-    println("A room has been removed from the home")
+  func home(home: HMHome, didRemoveRoom room: HMRoom) {
+    print("A room has been removed from the home")
   }
   
   override func tableView(tableView: UITableView,
@@ -62,7 +62,7 @@ class ListRoomsTableViewController: UITableViewController, HMHomeDelegate {
       
       let room = home.rooms[indexPath.row] as HMRoom
       
-      cell.textLabel.text = room.name
+      cell.textLabel!.text = room.name
       
       return cell
       
@@ -75,13 +75,10 @@ class ListRoomsTableViewController: UITableViewController, HMHomeDelegate {
       if editingStyle == .Delete{
         
         let room = home.rooms[indexPath.row] as HMRoom
-        home.removeRoom(room, completionHandler: {[weak self]
-          (error: NSError!) in
-          
-          let strongSelf = self!
+        home.removeRoom(room, completionHandler: {error in
           
           if error != nil{
-            UIAlertController.showAlertControllerOnHostController(strongSelf,
+            UIAlertController.showAlertControllerOnHostController(self,
               title: "Error",
               message: "An error occurred = \(error)",
               buttonTitle: "OK")
@@ -104,7 +101,7 @@ class ListRoomsTableViewController: UITableViewController, HMHomeDelegate {
       if segue.identifier == addRoomSegueIdentifier{
         
         let controller = segue.destinationViewController
-          as AddRoomViewController
+          as! AddRoomViewController
         
         controller.homeManager = homeManager
         controller.home = home

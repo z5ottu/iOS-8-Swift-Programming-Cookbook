@@ -45,33 +45,31 @@ HMAccessoryBrowserDelegate {
   
   var homeManager: HMHomeManager!
   
-  func homeManagerDidUpdateHomes(manager: HMHomeManager!) {
+  func homeManagerDidUpdateHomes(manager: HMHomeManager) {
     
-    manager.addHomeWithName(randomHomeName, completionHandler: {[weak self]
-      (home: HMHome!, error: NSError!) in
+    manager.addHomeWithName(randomHomeName, completionHandler: {home, error in
       
-      if error != nil{
-        println("Could not add the home")
-      } else {
-        let strongSelf = self!
-        strongSelf.home = home
-        println("Successfully added a home")
-        println("Adding a room to the home...")
-        home.addRoomWithName(strongSelf.roomName, completionHandler: {
-          (room: HMRoom!, error: NSError!) in
-          
-          if error != nil{
-            println("Failed to add a room...")
-          } else {
-            strongSelf.room = room
-            println("Successfully added a room.")
-            println("Discovering accessories now...")
-            strongSelf.accessoryBrowser.startSearchingForNewAccessories()
-          }
-          
-          })
-        
+      guard let home = home else {
+        print("Could not add the home")
+        return
       }
+      
+      self.home = home
+      print("Successfully added a home")
+      print("Adding a room to the home...")
+      home.addRoomWithName(self.roomName, completionHandler: {
+        room, error in
+        
+        if error != nil{
+          print("Failed to add a room...")
+        } else {
+          self.room = room
+          print("Successfully added a room.")
+          print("Discovering accessories now...")
+          self.accessoryBrowser.startSearchingForNewAccessories()
+        }
+        
+      })
       
       })
     
@@ -79,49 +77,46 @@ HMAccessoryBrowserDelegate {
   
   func findCharacteristicsOfService(service: HMService){
     for characteristic in service.characteristics as [HMCharacteristic]{
-      println("   Characteristic type = " +
+      print("   Characteristic type = " +
         "\(characteristic.characteristicType)")
     }
   }
   
   func findServicesForAccessory(accessory: HMAccessory){
-    println("Finding services for this accessory...")
+    print("Finding services for this accessory...")
     for service in accessory.services as [HMService]{
-      println(" Service name = \(service.name)")
-      println(" Service type = \(service.serviceType)")
+      print(" Service name = \(service.name)")
+      print(" Service type = \(service.serviceType)")
       
-      println(" Finding the characteristics for this service...")
+      print(" Finding the characteristics for this service...")
       findCharacteristicsOfService(service)
     }
   }
   
-  func accessoryBrowser(browser: HMAccessoryBrowser!,
-    didFindNewAccessory accessory: HMAccessory!) {
+  func accessoryBrowser(browser: HMAccessoryBrowser,
+    didFindNewAccessory accessory: HMAccessory) {
       
-      println("Found a new accessory")
-      println("Adding it to the home...")
-      home.addAccessory(accessory, completionHandler: {[weak self]
-        (error: NSError!) in
-        
-        let strongSelf = self!
+      print("Found a new accessory")
+      print("Adding it to the home...")
+      home.addAccessory(accessory, completionHandler: {error in
         
         if error != nil{
-          println("Failed to add the accessory to the home")
-          println("Error = \(error)")
+          print("Failed to add the accessory to the home")
+          print("Error = \(error)")
         } else {
-          println("Successfully added the accessory to the home")
-          println("Assigning the accessory to the room...")
-          strongSelf.home.assignAccessory(accessory,
-            toRoom: strongSelf.room,
-            completionHandler: {(error: NSError!) in
+          print("Successfully added the accessory to the home")
+          print("Assigning the accessory to the room...")
+          self.home.assignAccessory(accessory,
+            toRoom: self.room,
+            completionHandler: {error in
               
               if error != nil{
-                println("Failed to assign the accessory to the room")
-                println("Error = \(error)")
+                print("Failed to assign the accessory to the room")
+                print("Error = \(error)")
               } else {
-                println("Successfully assigned the accessory to the room")
+                print("Successfully assigned the accessory to the room")
                 
-                strongSelf.findServicesForAccessory(accessory)
+                self.findServicesForAccessory(accessory)
                 
               }
               
@@ -132,10 +127,10 @@ HMAccessoryBrowserDelegate {
       
   }
   
-  func accessoryBrowser(browser: HMAccessoryBrowser!,
-    didRemoveNewAccessory accessory: HMAccessory!){
+  func accessoryBrowser(browser: HMAccessoryBrowser,
+    didRemoveNewAccessory accessory: HMAccessory){
       
-      println("An accessory has been removed")
+      print("An accessory has been removed")
       
   }
   
